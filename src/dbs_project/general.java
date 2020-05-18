@@ -89,12 +89,12 @@ public class general {
       }
       if (ci==0)
       {
-            candidatekeys.add(new ArrayList<String>());
-            for (int k=0;k<na;k++)
-            {
-                candidatekeys.get(0).add(k, attribute[k]);
-            }
-            ci++;
+        candidatekeys.add(new ArrayList<String>());
+        for (int k=0;k<na;k++)
+        {
+            candidatekeys.get(0).add(k, attribute[k]);
+        }
+        ci++;
       }
       return candidatekeys;
     }

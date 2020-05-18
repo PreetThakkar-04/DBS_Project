@@ -311,7 +311,7 @@ public class FinalDescription extends javax.swing.JFrame {
 
         jSplitPane1.setDividerLocation(200);
         jSplitPane1.setMinimumSize(new java.awt.Dimension(1000, 102));
-        jSplitPane1.setPreferredSize(new java.awt.Dimension(2000, 800));
+        jSplitPane1.setPreferredSize(new java.awt.Dimension(3000, 1500));
 
         javax.swing.GroupLayout typepanelLayout = new javax.swing.GroupLayout(typepanel);
         typepanel.setLayout(typepanelLayout);
@@ -321,7 +321,7 @@ public class FinalDescription extends javax.swing.JFrame {
         );
         typepanelLayout.setVerticalGroup(
             typepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+            .addGap(0, 1498, Short.MAX_VALUE)
         );
 
         jSplitPane1.setLeftComponent(typepanel);
@@ -330,11 +330,11 @@ public class FinalDescription extends javax.swing.JFrame {
         contentpanel.setLayout(contentpanelLayout);
         contentpanelLayout.setHorizontalGroup(
             contentpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1794, Short.MAX_VALUE)
+            .addGap(0, 2794, Short.MAX_VALUE)
         );
         contentpanelLayout.setVerticalGroup(
             contentpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 798, Short.MAX_VALUE)
+            .addGap(0, 1498, Short.MAX_VALUE)
         );
 
         jSplitPane1.setRightComponent(contentpanel);
@@ -345,6 +345,7 @@ public class FinalDescription extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Show");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -355,6 +356,7 @@ public class FinalDescription extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Back to main page");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);

@@ -159,6 +159,7 @@ public class FD extends javax.swing.JFrame {
         go.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         go.setForeground(new java.awt.Color(255, 255, 255));
         go.setText("Go");
+        go.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         go.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 goMouseClicked(evt);
@@ -226,6 +227,7 @@ public class FD extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Confirm");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);

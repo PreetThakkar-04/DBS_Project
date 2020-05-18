@@ -6,8 +6,8 @@ import java.util.Arrays;
 import javafx.scene.input.KeyCode;
 
 public class general {
-    int na,nfds,t=0,ci=0,p,nr=0;
-    int q=0,npk=0;
+    int na,nfds,t=0,ci=0,p,nr=0,g=0;
+    int q=0,npk=0,ncxa=1;
     String[] attribute;
     ArrayList<ArrayList<String> > xa;
     ArrayList<ArrayList<String> > ya;
@@ -15,6 +15,7 @@ public class general {
     ArrayList<ArrayList<String>> Relations;
     String[] temp; 
     String[] tep;
+    String[] lop;
     String nf;
     void collectNumberOfAttribute(int num)
     {
@@ -89,14 +90,132 @@ public class general {
       }
       if (ci==0)
       {
-        candidatekeys.add(new ArrayList<String>());
-        for (int k=0;k<na;k++)
+        combinationXa();
+        if (ci==0)
         {
-            candidatekeys.get(0).add(k, attribute[k]);
+            candidatekeys.add(new ArrayList<String>());
+            for (int k=0;k<na;k++)
+            {
+                candidatekeys.get(0).add(k, attribute[k]);
+            }
+            ci++;
         }
-        ci++;
       }
       return candidatekeys;
+    }
+    void combinationXa()
+    {
+        while (ncxa<=nfds)
+        {
+            ncxa++;
+            combination(ncxa); 
+        }
+    }
+    void combination(int k)
+    {
+        int N = nfds;
+        int pointers[] = new int[k];
+        int r=0,i=0;
+        while(r >= 0)
+        {
+		if(i <= (N + (r - k)))
+                {
+			pointers[r] = i;
+			if(r == k-1)
+                        {
+				collectCombination(pointers,k);
+				i++;				
+			}
+			else
+                        {
+				i = pointers[r]+1;
+				r++;										
+			}				
+		}
+		else
+                {
+			r--;
+			if(r >= 0)
+				i = pointers[r]+1;
+			
+		}			
+	}
+    }
+    void collectCombination(int pointers[], int k)
+    {
+        for (int i=0;i<k;i++)
+        {
+            System.out.print(pointers[i]+" ");
+        }
+        System.out.println();
+        lop = new String[na];
+        g=0;int fl=0;
+        for (int i=0;i<nfds;i++)
+        {
+            for (int j=0;j<k;j++)
+            {
+                if (pointers[j]==i)
+                {
+                    int yt = xa.get(i).size();
+                    for (int z=0;z<yt;z++)
+                    {
+                        fl=0;
+                        for (int h=0;h<g;h++)
+                        {
+                            if (lop[h].equals(xa.get(i).get(z)))
+                            {
+                                fl=1;
+                                break;
+                            }
+                        }
+                        if (fl==0)
+                            lop[g++] = xa.get(i).get(z);
+                    }
+                    addpot(ya.get(i));
+                }
+            }
+        }
+        if (g==na)
+        {
+            candidatekeys.add(new ArrayList<String>());
+            int cou=0;
+            for (int i=0;i<nfds;i++)
+            {
+                for (int j=0;j<k;j++)
+                {
+                    if (pointers[j]==i)
+                    {
+                        int pre = xa.get(i).size();
+                        for (int z=0;z<pre;z++)
+                        {
+                            candidatekeys.get(ci).add(cou, xa.get(i).get(z));
+                            cou++;
+                        }
+                    }
+                }
+            }
+            ci++;
+        }
+    }
+    void addpot(ArrayList<String> al)
+    {
+        int nb = al.size(),bol=0;
+        for (int i=0;i<nb;i++)
+        {
+            bol=0;
+            for (int j=0;j<g;j++)
+            {
+                if (al.get(i).equals(lop[j]))
+                {
+                    bol = 1;
+                    break;
+                }
+            }
+            if (bol==0)
+            {
+                lop[g++] = al.get(i);
+            }
+        }
     }
     void addTemp(ArrayList<String> y)
     {

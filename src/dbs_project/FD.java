@@ -25,11 +25,18 @@ public class FD extends javax.swing.JFrame {
         String  na = numberofFDs.getText();
         if (na.equals(""))
         {
-            JOptionPane.showMessageDialog(null, "Add non-zero number of Attributes!");
+            JOptionPane.showMessageDialog(null, "Add non-zero number of FDs!");
         }
         else
         {
-            num = Integer.parseInt(na);
+            try
+            {
+                num = Integer.parseInt(na);
+            }
+            catch(NumberFormatException e)
+                    {
+                        JOptionPane.showMessageDialog(null, "Invalid number of Attribute");
+                    }
             JLabel fds[] = new JLabel[num];
             JButton confirm = new JButton();
             Xa = new JList[num];
@@ -321,8 +328,27 @@ public class FD extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         ArrayList<ArrayList<String> > x = new ArrayList<ArrayList<String> >();
         ArrayList<ArrayList<String> > y = new ArrayList<ArrayList<String> >();
-        int w,z;
-        for (w=0;w<num;w++)
+        int w,z,flag=0;
+        for (int j=0;j<num;j++)
+        {
+            int xindices[] = Xa[j].getSelectedIndices();
+            if (xindices.length==0)
+            {
+                flag=1;
+            }
+            int yindices[] = Ya[j].getSelectedIndices();
+             if (yindices.length==0)
+             {
+                 flag=1;
+             } 
+        }
+        if (flag==1)
+        {
+            JOptionPane.showMessageDialog(null, "Select atleast one in all the lists");
+        }
+        else
+        {
+           for (w=0;w<num;w++)
         {
            int xindices[] = Xa[w].getSelectedIndices();
            for (z=0;z<xindices.length;z++)
@@ -345,7 +371,8 @@ public class FD extends javax.swing.JFrame {
         fdesc.setLocationRelativeTo(null);
         fdesc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fdesc.collectGen(gen);
-        this.dispose();
+        this.dispose(); 
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     public static void main(String args[]) {

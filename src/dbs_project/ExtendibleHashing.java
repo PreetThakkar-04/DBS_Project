@@ -1,6 +1,7 @@
 package dbs_project;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ExtendibleHashing extends javax.swing.JFrame {
 
@@ -221,14 +222,44 @@ public class ExtendibleHashing extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         generalHashing gh = new generalHashing();
-        gh.collectParameters(Integer.parseInt(ntext.getText()), Integer.parseInt(nBfr.getText()), Integer.parseInt(gdText.getText()), Integer.parseInt(ldText.getText()));
-        InsertSim isi = new InsertSim();
-        isi.setVisible(true);
-        isi.pack();
-        isi.setLocationRelativeTo(null);
-        isi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        isi.collectGeneral(gh);
-        this.dispose();
+        if (ntext.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Add non-zero number of Mod factor!");
+        }
+        else if (nBfr.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Add non-zero number of blocking factor!");
+        }
+        else if (gdText.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Add non-zero number of Global depth!");
+        }
+        else if (ldText.getText().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Add non-zero number of Local depth!");
+        }
+        else if (Integer.parseInt(gdText.getText())<Integer.parseInt(ldText.getText()))
+        {
+            JOptionPane.showMessageDialog(null, "LD cannot be less than GD");
+        }
+        else
+        {
+            try
+            {
+                gh.collectParameters(Integer.parseInt(ntext.getText()), Integer.parseInt(nBfr.getText()), Integer.parseInt(gdText.getText()), Integer.parseInt(ldText.getText()));
+            }
+            catch(NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(null, "Invalid number in one of the fields!");
+            }
+            InsertSim isi = new InsertSim();
+            isi.setVisible(true);
+            isi.pack();
+            isi.setLocationRelativeTo(null);
+            isi.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            isi.collectGeneral(gh);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     public static void main(String args[]) {

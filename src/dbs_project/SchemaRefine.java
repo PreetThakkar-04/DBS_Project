@@ -21,7 +21,14 @@ public class SchemaRefine extends JFrame {
         else
         {
             attributepanel.removeAll();
-            num = Integer.parseInt(na);
+            try
+            {
+                num = Integer.parseInt(na);
+            }
+            catch(NumberFormatException e)
+                    {
+                        JOptionPane.showMessageDialog(null, "Invalid number of Attribute");
+                    }
             JLabel Attribute[] = new JLabel[num];
             AttributeText = new JTextField[num];
             for(int i = 0; i <Attribute.length; i++) 
@@ -227,20 +234,33 @@ public class SchemaRefine extends JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         String[] attr = new String[num];
+        int fl=0;
         for (int i=0; i<num; i++)
         {
             attr[i] = AttributeText[i].getText();
         }
-        general gen = new general();
-        gen.collectNumberOfAttribute(num);
-        gen.collectAttribute(attr);
-        FD f = new FD();
-        f.setVisible(true);
-        f.pack();
-        f.setLocationRelativeTo(null);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.collectGen(gen);
-        this.dispose();
+        for (int i=0; i<num; i++)
+        {
+            if (attr[i].equals(""))
+            {
+                JOptionPane.showMessageDialog(null, "Do not leave Attribute field empty!");
+                fl=1;
+                break;
+            }
+        }
+        if (fl==0)
+        {
+            general gen = new general();
+            gen.collectNumberOfAttribute(num);
+            gen.collectAttribute(attr);
+            FD f = new FD();
+            f.setVisible(true);
+            f.pack();
+            f.setLocationRelativeTo(null);
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f.collectGen(gen);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1MouseClicked
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

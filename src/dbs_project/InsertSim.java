@@ -3,6 +3,7 @@ package dbs_project;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,46 +31,61 @@ public class InsertSim extends javax.swing.JFrame {
     {
         int flag=0,tr=-1;
         String mom;
-        key = Integer.parseInt(keyValues.getText());
-        int k = (key) % (gh.getN());
-        keyValue = Integer.toBinaryString(k);
-        for (int i=0;i<brows;i++)
+        if (keyValues.getText().equals(""))
         {
-            mom=keyValue;
-                if (mom.length()<gh.lds[i])
-                {
-                    int w = gh.lds[i] - mom.length();
-                    for (int j=0;j<w;j++)
-                    {
-                        mom = "0" + mom;
-                    }
-                }
-                else if (mom.length()>gh.lds[i])
-                {
-                     mom = mom.substring(mom.length() - gh.lds[i]);
-                }
-                mom = "B" + mom;
-            if (bucket[i][0].equals(mom))
+            JOptionPane.showMessageDialog(null, "Add non-zero number of Key value!");
+        }
+        else
+        {
+            try
             {
-                for (int j=1;j<gh.getBfr()+1;j++)
-                {
-                    if (bucket[i][j].equals(""))
-                    {
-                        bucket[i][j] = Integer.toString(key);
-                        flag=1;
-                        break;
-                    }
-                }
-                if (flag==0)
-                    tr = i;
+                key = Integer.parseInt(keyValues.getText());                
             }
-            if (flag==1)
-                break;
+            catch(NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(null, "Invalid Keyvalue!");
+            }
+            int k = (key) % (gh.getN());
+            keyValue = Integer.toBinaryString(k);
+            for (int i=0;i<brows;i++)
+            {
+                mom=keyValue;
+                    if (mom.length()<gh.lds[i])
+                    {
+                        int w = gh.lds[i] - mom.length();
+                        for (int j=0;j<w;j++)
+                        {
+                            mom = "0" + mom;
+                        }
+                    }
+                    else if (mom.length()>gh.lds[i])
+                    {
+                         mom = mom.substring(mom.length() - gh.lds[i]);
+                    }
+                    mom = "B" + mom;
+                if (bucket[i][0].equals(mom))
+                {
+                    for (int j=1;j<gh.getBfr()+1;j++)
+                    {
+                        if (bucket[i][j].equals(""))
+                        {
+                            bucket[i][j] = Integer.toString(key);
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if (flag==0)
+                        tr = i;
+                }
+                if (flag==1)
+                    break;
         }
         buckets.validate();
         buckets.repaint();
         if (flag==0)
             updateTable(tr);
+        }
+        keyValues.setText("");
     }
     void updateTable(int rn)
     {
@@ -327,6 +343,7 @@ public class InsertSim extends javax.swing.JFrame {
         directory = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         buckets = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -375,7 +392,7 @@ public class InsertSim extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(56, 56, 56)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 367, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 387, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
@@ -446,6 +463,16 @@ public class InsertSim extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(buckets);
 
+        jButton2.setBackground(new java.awt.Color(0, 0, 204));
+        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Proceed");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -467,9 +494,13 @@ public class InsertSim extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(27, 27, 27))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,7 +518,9 @@ public class InsertSim extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -524,6 +557,17 @@ public class InsertSim extends javax.swing.JFrame {
        initialTable();
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+            gh.collectBucket(bucket,brows);
+            SearchSim ss = new SearchSim();
+            ss.setVisible(true);
+            ss.pack();
+            ss.setLocationRelativeTo(null);
+            ss.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ss.collectGeneral(gh);
+            this.dispose();
+    }//GEN-LAST:event_jButton2MouseClicked
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -538,6 +582,7 @@ public class InsertSim extends javax.swing.JFrame {
     private javax.swing.JPanel directory;
     private javax.swing.JButton insert;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

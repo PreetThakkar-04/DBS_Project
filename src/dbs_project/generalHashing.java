@@ -3,7 +3,8 @@ package dbs_project;
 
 public class generalHashing {
      int n, bfr, gd, ld,brows;
-     int lds[] = new int[1000];;
+     int lds[] = new int[1000];
+     String[][] buck;
      void collectParameters(int nText, int nBfr, int gdText, int ldText)
      {
          n=nText;
@@ -49,5 +50,21 @@ public class generalHashing {
              lds[i] = lds[i-1];
          }
          lds[rn+1] = lds[rn];
+     }
+     void collectBucket(String[][] bucket,int b)
+     {
+         brows = b;
+         buck = new String[b][bfr+1];
+         for (int i=0;i<b;i++)
+         {
+             for (int j=0;j<bfr+1;j++)
+             {
+                 buck[i][j] = bucket[i][j];
+             }
+         }
+     }
+     String[][] getBucket()
+     {
+         return buck;
      }
 }

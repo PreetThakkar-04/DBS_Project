@@ -7,11 +7,12 @@ import javafx.scene.input.KeyCode;
 
 public class general {
     int na,nfds,t=0,ci=0,p,nr=0,g=0;
-    int q=0,npk=0,ncxa=1;
+    int q=0,npk=0,ncxa=0,sk=0;
     String[] attribute;
     ArrayList<ArrayList<String> > xa;
     ArrayList<ArrayList<String> > ya;
     ArrayList<ArrayList<String> > candidatekeys;
+    ArrayList<ArrayList<String> > superKeys;
     ArrayList<ArrayList<String>> Relations;
     String[] temp; 
     String[] tep;
@@ -48,72 +49,47 @@ public class general {
     }
     ArrayList<ArrayList<String>> getCandidateKeys()
     {
-      temp = new String[na];
-      int z=0;
-      candidatekeys = new ArrayList<ArrayList<String> >();
-      for (int i=0;i<nfds;i++)
-      {
-          p=0;
-          for (int j=0;j<t;j++)
-          {
-              temp[j]="";
-          }
-          t=0;
-          for (int k=0;k<xa.get(i).size();k++)
-          {
-              temp[t++] = xa.get(i).get(k);
-          }
-          for (int j=0;j<nfds;j++)
-          {
-              if (xa.get(i).equals(xa.get(j)))
-              {
-                  addTemp(ya.get(j));
-              }
-          }
-          if (t==na)
-          {
-              for (int k=0;k<ci;k++)
-              {
-                  if (candidatekeys.get(k).equals(xa.get(i)))
-                  {
-                      p=1;
-                      break;
-                  }
-              }
-              if (p==0)
-              {
-                    candidatekeys.add(new ArrayList<String>());
-                    candidatekeys.add(ci, xa.get(i));
-                    ci++;
-              }
-          }
-      }
-      if (ci==0)
-      {
-        combinationXa();
-        if (ci==0)
-        {
-            candidatekeys.add(new ArrayList<String>());
-            for (int k=0;k<na;k++)
-            {
-                candidatekeys.get(0).add(k, attribute[k]);
-            }
-            ci++;
-        }
-      }
-      return candidatekeys;
-    }
-    void combinationXa()
-    {
-        while (ncxa<=nfds)
+        int siz=na;
+        superKeys = new ArrayList<ArrayList<String> >();
+        candidatekeys = new ArrayList<ArrayList<String> >();
+        while (ncxa<na)
         {
             ncxa++;
-            combination(ncxa); 
+            combination(ncxa);
         }
+        if (sk==0)
+        {
+            superKeys.add(new ArrayList<String>());
+            for (int i=0;i<na;i++)
+            {
+                superKeys.get(sk).add(i, attribute[i]);
+            }
+            sk++;
+        }
+        for (int i=0;i<sk;i++)
+        {
+            if (superKeys.get(i).size()<=siz)
+            {
+                siz=superKeys.get(i).size();
+            }
+        }
+        for (int i=0;i<sk;i++)
+        {
+            if (superKeys.get(i).size()==siz)
+            {
+                candidatekeys.add(new ArrayList<String>());
+                for (int j=0;j<siz;j++)
+                {
+                    candidatekeys.get(ci).add(j, superKeys.get(i).get(j));
+                }
+                ci++;
+            }
+        }
+        return candidatekeys;
     }
     void combination(int k)
     {
-        int N = nfds;
+        int N = na;
         int pointers[] = new int[k];
         int r=0,i=0;
         while(r >= 0)
@@ -141,102 +117,119 @@ public class general {
 		}			
 	}
     }
-    void collectCombination(int pointers[], int k)
+    void collectCombination(int[] pointers, int k)
     {
+        lop = new String[na];
+        g=0;
         for (int i=0;i<k;i++)
         {
-            System.out.print(pointers[i]+" ");
+            lop[g++] = attribute[pointers[i]];
         }
-        System.out.println();
-        lop = new String[na];
-        g=0;int fl=0;
+        tempUse();
+        if (na==g)
+        {
+            superKeys.add(new ArrayList<String>());
+            for (int i=0;i<k;i++)
+            {
+                superKeys.get(sk).add(i, attribute[pointers[i]]);
+            }
+            sk++;
+        }
+    }
+    void tempUse()
+    {
+        int j=0;
+        for (int i=1;i<=g;i++)
+        {
+            j=tempCombination(i);
+            if (j==1)
+            {
+                break;
+            }
+        } 
+        if (j==1)
+            tempUse();
+    }
+    int tempCombination(int k)
+    {
+        int N = g,s=0;
+        int point[] = new int[k];
+        int r=0,i=0;
+        while(r >= 0)
+        {
+		if(i <= (N + (r - k)))
+                {
+			point[r] = i;
+			if(r == k-1)
+                        {
+				s = collectTemp(point,k);
+                                if (s==1)
+                                {
+                                    return 1;
+                                }
+				i++;				
+			}
+			else
+                        {
+				i = point[r]+1;
+				r++;										
+			}				
+		}
+		else
+                {
+			r--;
+			if(r >= 0)
+				i = point[r]+1;
+			
+		}			
+	}
+        return 0;
+    }
+    int collectTemp(int [] point, int k)
+    {
+        int pt = 0,gt=0,ns=0,flg=0;
+        String ta[] = new String[k];
+        for (int i=0;i<k;i++)
+        {
+            ta[pt++] = lop[point[i]];
+        }
         for (int i=0;i<nfds;i++)
         {
-            for (int j=0;j<k;j++)
+            ns=0;
+            int h = xa.get(i).size();
+            for (int j=0;j<h;j++)
             {
-                if (pointers[j]==i)
+                for (int z=0;z<pt;z++)
                 {
-                    int yt = xa.get(i).size();
-                    for (int z=0;z<yt;z++)
-                    {
-                        fl=0;
-                        for (int h=0;h<g;h++)
-                        {
-                            if (lop[h].equals(xa.get(i).get(z)))
-                            {
-                                fl=1;
-                                break;
-                            }
-                        }
-                        if (fl==0)
-                            lop[g++] = xa.get(i).get(z);
-                    }
-                    addpot(ya.get(i));
+                    if (xa.get(i).get(j).equals(ta[z]))
+                        ns++;
                 }
             }
-        }
-        if (g==na)
-        {
-            candidatekeys.add(new ArrayList<String>());
-            int cou=0;
-            for (int i=0;i<nfds;i++)
+            if (ns==h)
             {
-                for (int j=0;j<k;j++)
+                int l = ya.get(i).size();
+                for (int j=0;j<l;j++)
                 {
-                    if (pointers[j]==i)
+                    flg=0;
+                    for (int z=0;z<g;z++)
                     {
-                        int pre = xa.get(i).size();
-                        for (int z=0;z<pre;z++)
+                        if (ya.get(i).get(j).equals(lop[z]))
                         {
-                            candidatekeys.get(ci).add(cou, xa.get(i).get(z));
-                            cou++;
+                            flg=1;
+                            break;
                         }
                     }
+                    if (flg==0)
+                   {
+                        lop[g++] = ya.get(i).get(j);
+                        gt=1;
+                   }
                 }
             }
-            ci++;
+            if (gt==1)
+                return 1;
         }
-    }
-    void addpot(ArrayList<String> al)
-    {
-        int nb = al.size(),bol=0;
-        for (int i=0;i<nb;i++)
-        {
-            bol=0;
-            for (int j=0;j<g;j++)
-            {
-                if (al.get(i).equals(lop[j]))
-                {
-                    bol = 1;
-                    break;
-                }
-            }
-            if (bol==0)
-            {
-                lop[g++] = al.get(i);
-            }
-        }
-    }
-    void addTemp(ArrayList<String> y)
-    {
-        int size = y.size();
-        int w;
-        for (int i=0;i<size;i++)
-        {
-            w=0;
-            for (int j=0;j<t;j++)
-            {
-                if (y.get(i).equals(temp[j]))
-                {
-                    w=1;  
-                    break;
-                }
-            }
-            if (w==0)
-            {
-                temp[t++] = y.get(i);
-            }
-        }
+        return 0;
     }
     int getNumberOfCandidateKeys()
     {
